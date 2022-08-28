@@ -1,0 +1,24 @@
+/** @format */
+
+.icon {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  position: static;
+  top: 0.35em;
+  margin: 0 0.42em;
+}
+
+ul {
+  margin-bottom: 15px;
+
+  li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 28px 0 0;
+  }
+}
+
+div {
+    text-align: center;
+}
