@@ -1,10 +1,16 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import './navbar.scss';
 
+import { GridContext } from '../../context/gridContext';
 import {FaAngleDown} from 'react-icons/fa'
 
 
 const Navbar = () => {
+  const {setGrid,initializeGrid} = useContext(GridContext);
+  const clearWalls = () => {
+    const newGrid = initializeGrid();
+    setGrid(newGrid)
+  }
   return (
     <nav className="nav">
       <h1>Algo Visualizer</h1>
@@ -44,7 +50,7 @@ const Navbar = () => {
             </li>
           </ul>
         </li>
-        <li><a href='#'>Clear Board</a></li>
+        <li><a onClick={clearWalls}>Clear Board</a></li>
       </ul>
     </nav>
   )
