@@ -15,21 +15,18 @@ const Node = (props) => {
     onMouseUp,
     row,
   } = props
+  const extraClasses = isWall ? 'wall' : ''
 
-  const classes = isTarget
-    ? 'node-target'
-    : isSource
-    ? 'node-source'
-    : isWall
-    ? 'wall'
-    : ''
     return (
-        <div
+        <span
           id={`node-${row}-${col}`}
-          className={`node ${classes}`}
+          className={`node node-source ${extraClasses}`}
           onMouseDown={() => onMouseDown(row, col)}
           onMouseEnter={() => onMouseEnter(row, col)}
-          onMouseUp={() => onMouseUp()}>{isSource? getIcon(0) : isTarget ? getIcon(1) : ''}</div>
+          onMouseUp={() => onMouseUp()}>
+          {isSource? getIcon(0) :''}
+          {isTarget ? getIcon(1) : ''}
+        </span>
       )
 }
 

@@ -9,15 +9,23 @@ const START_NODE_ROW = parseInt(process.env.REACT_APP_START_NODE_ROW)
 const START_NODE_COL = parseInt(process.env.REACT_APP_START_NODE_COL)
 
 const Grid = () => {
-  const { grid, setGrid, initializeGrid } = useContext(GridContext)
+  const {
+    grid,
+    setGrid,
+    initializeGrid,
+    startNodeIdx,
+    finishNodeIdx,
+    setStartNodeIdx,
+    setFinishNodeIdx,
+  } = useContext(GridContext)
 
-  const [startNode, setStartNode] = useState([START_NODE_ROW, START_NODE_COL])
-  const [finishNode, setFinishNode] = useState([
-    FINISH_NODE_ROW,
-    FINISH_NODE_COL,
-  ])
+  // const [startNodeIdx, setStartNodeIdx] = useState([START_NODE_ROW, START_NODE_COL])
+  // const [finishNodeIdx, setFinishNodeIdx] = useState([
+  //   FINISH_NODE_ROW,
+  //   FINISH_NODE_COL,
+  // ])
 
-  const [isMousePressed, setIsMousePressed] = useState([false,false,false]);
+  const [isMousePressed, setIsMousePressed] = useState([false, false, false])
   /*
     0 - > for toggle walls
     1 -> for moving starting Node
@@ -25,47 +33,45 @@ const Grid = () => {
   */
 
   useEffect(() => {
+    setStartNodeIdx([START_NODE_ROW, START_NODE_COL])
+    setFinishNodeIdx([FINISH_NODE_ROW, FINISH_NODE_COL])
     const newGrid = initializeGrid()
     setGrid(newGrid)
   }, [])
 
   const mouseDownHandler = (row, col) => {
     var newGrid = grid
-    if (row === startNode[0] && col === startNode[1]) {
-      newGrid = moveStartNodeHandler(row, col)
-      setIsMousePressed([true,true,false])
-    } else if(row === finishNode[0] && col === finishNode[1]) {
+    if (row === startNodeIdx[0] && col === startNodeIdx[1]) {
+      newGrid = moveStartNodeIdxHandler(row, col)
+      setIsMousePressed([true, true, false])
+    } else if (row === finishNodeIdx[0] && col === finishNodeIdx[1]) {
       newGrid = moveTargetNodeHandler(row, col)
-      setIsMousePressed([true, false, true]);
+      setIsMousePressed([true, false, true])
     } else {
       newGrid = toggleWalls(row, col)
-      setIsMousePressed([true,false,false])
+      setIsMousePressed([true, false, false])
     }
     setGrid(newGrid)
   }
 
   const mouseUpHandler = () => {
-    setIsMousePressed([false,false,false])
+    setIsMousePressed([false, false, false])
   }
 
   const mouseEnterHandler = (row, col) => {
-    console.log(isMousePressed)
     if (!isMousePressed[0]) return
     var newGrid = []
-    if (isMousePressed[1]) newGrid = moveStartNodeHandler(row, col)
-    else if(isMousePressed[2]) newGrid = moveTargetNodeHandler(row,col)
+    if (isMousePressed[1]) newGrid = moveStartNodeIdxHandler(row, col)
+    else if (isMousePressed[2]) newGrid = moveTargetNodeHandler(row, col)
     else newGrid = toggleWalls(row, col)
+
     setGrid(newGrid)
   }
 
   function moveTargetNodeHandler(row, col) {
-    if(row == startNode[0] && col == startNode[1]) return grid;
+    if (row === startNodeIdx[0] && col === startNodeIdx[1]) return grid
     const newGrid = grid.slice()
-    const oldStart = grid[finishNode[0]][finishNode[1]]
-    newGrid[finishNode[0]][finishNode[1]] = {
-      ...oldStart,
-      isTarget: false,
-    }
+    removeSpecialNode(finishNodeIdx[0], finishNodeIdx[1])
     const node = grid[row][col]
     const newNode = {
       ...node,
@@ -74,18 +80,14 @@ const Grid = () => {
 
     newGrid[row][col] = newNode
 
-    setFinishNode([row, col])
+    setFinishNodeIdx([row, col])
     return newGrid
   }
 
-  function moveStartNodeHandler(row, col) {
-    if(row ===finishNode[0] && col === finishNode[1]) return grid
+  function moveStartNodeIdxHandler(row, col) {
+    if (row === finishNodeIdx[0] && col === finishNodeIdx[1]) return grid
     const newGrid = grid.slice()
-    const oldStart = grid[startNode[0]][startNode[1]]
-    newGrid[startNode[0]][startNode[1]] = {
-      ...oldStart,
-      isSource: false,
-    }
+    removeSpecialNode(startNodeIdx[0], startNodeIdx[1])
     const node = grid[row][col]
     const newNode = {
       ...node,
@@ -94,10 +96,26 @@ const Grid = () => {
 
     newGrid[row][col] = newNode
 
-    setStartNode([row, col])
+    setStartNodeIdx([row, col])
     return newGrid
   }
+
+  const removeSpecialNode = async (row, col) => {
+    const localGrid = grid.slice()
+    const node = localGrid[row][col]
+    localGrid[row][col] = {
+      ...node,
+      isSource: false,
+      isTarget: false,
+    }
+    await setGrid(localGrid)
+  }
+
+  
+  
   function toggleWalls(row, col) {
+    const condition = (row === startNodeIdx[0] && col === startNodeIdx[1] ) || (row === finishNodeIdx[0] && col === finishNodeIdx[1])
+    if(condition) return grid
     const newGrid = grid.slice()
     const node = grid[row][col]
     const newNode = {
@@ -113,7 +131,7 @@ const Grid = () => {
       <div className="grid">
         {grid.map((row, rowIdx) => {
           return (
-            <div key={rowIdx}>
+            <div key={rowIdx} className='row'>
               {row.map((node, nodeIdx) => {
                 const { row, col, isTarget, isSource, isWall } = node
                 return (
