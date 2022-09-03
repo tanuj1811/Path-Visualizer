@@ -15,12 +15,13 @@ const Node = (props) => {
     onMouseUp,
     row,
   } = props
-  const extraClasses = isWall ? 'wall' : ''
+  let extraClasses = isWall ? 'wall' : ''
+  extraClasses += isSource || isTarget ? 'source-node': ''
 
     return (
         <span
           id={`node-${row}-${col}`}
-          className={`node node-source ${extraClasses}`}
+          className={`node ${extraClasses}`}
           onMouseDown={() => onMouseDown(row, col)}
           onMouseEnter={() => onMouseEnter(row, col)}
           onMouseUp={() => onMouseUp()}>

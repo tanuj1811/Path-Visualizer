@@ -19,11 +19,6 @@ const Grid = () => {
     setFinishNodeIdx,
   } = useContext(GridContext)
 
-  // const [startNodeIdx, setStartNodeIdx] = useState([START_NODE_ROW, START_NODE_COL])
-  // const [finishNodeIdx, setFinishNodeIdx] = useState([
-  //   FINISH_NODE_ROW,
-  //   FINISH_NODE_COL,
-  // ])
 
   const [isMousePressed, setIsMousePressed] = useState([false, false, false])
   /*
@@ -71,14 +66,16 @@ const Grid = () => {
   function moveTargetNodeHandler(row, col) {
     if (row === startNodeIdx[0] && col === startNodeIdx[1]) return grid
     const newGrid = grid.slice()
-    removeSpecialNode(finishNodeIdx[0], finishNodeIdx[1])
-    const node = grid[row][col]
-    const newNode = {
-      ...node,
-      isTarget: true,
-    }
+    if(removeSpecialNode(newGrid, finishNodeIdx[0], finishNodeIdx[1])){
 
-    newGrid[row][col] = newNode
+      const node = grid[row][col]
+      const newNode = {
+        ...node,
+        isTarget: true,
+      }
+      
+      newGrid[row][col] = newNode
+    }
 
     setFinishNodeIdx([row, col])
     return newGrid
@@ -87,28 +84,28 @@ const Grid = () => {
   function moveStartNodeIdxHandler(row, col) {
     if (row === finishNodeIdx[0] && col === finishNodeIdx[1]) return grid
     const newGrid = grid.slice()
-    removeSpecialNode(startNodeIdx[0], startNodeIdx[1])
-    const node = grid[row][col]
-    const newNode = {
-      ...node,
-      isSource: true,
+    if(removeSpecialNode(newGrid, startNodeIdx[0], startNodeIdx[1])){
+      const node = newGrid[row][col]
+      const newNode = {
+        ...node,
+        isSource: true,
+      }
+      
+      newGrid[row][col] = newNode
     }
-
-    newGrid[row][col] = newNode
 
     setStartNodeIdx([row, col])
     return newGrid
   }
 
-  const removeSpecialNode = async (row, col) => {
-    const localGrid = grid.slice()
+  const removeSpecialNode = (localGrid, row, col) => {
     const node = localGrid[row][col]
     localGrid[row][col] = {
       ...node,
       isSource: false,
       isTarget: false,
     }
-    await setGrid(localGrid)
+    return localGrid
   }
 
   

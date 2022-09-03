@@ -1,6 +1,6 @@
 import { animateShortestPath } from './animateAlgo'
 
-function animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
+export function animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder) {
   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
     if (i === visitedNodesInOrder.length) {
       if (nodesInShortestPathOrder.length <= 1) console.log('Err: target node not reachable')
@@ -19,14 +19,14 @@ function animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
   }
 }
 
-export function visualizeDijkstra(grid, startNodeIdx, finishNodeIdx) {
+export default function visualizeDijkstra(grid, startNodeIdx, finishNodeIdx) {
   if (!grid) return
   const startNode = grid[startNodeIdx[0]][startNodeIdx[1]]
   const finishNode = grid[finishNodeIdx[0]][finishNodeIdx[1]]
 
   const visitedNodesInOrder = dijkstra(grid, startNode, finishNode)
   const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode)
-  animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder)
+  animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder)
 }
 
 function dijkstra(grid, startNode, finishNode) {
@@ -68,7 +68,6 @@ function getUnvisitedNeighbors(node, grid) {
 }
 
 function getAllNodes(grid) {
-  console.log('hello from getAllNodes')
   const nodes = []
   for (const row of grid) {
     for (const node of row) {
@@ -87,3 +86,4 @@ export function getNodesInShortestPathOrder(finishNode) {
   }
   return nodesInShortestPathOrder
 }
+  

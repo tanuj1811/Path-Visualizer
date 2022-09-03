@@ -1,57 +1,66 @@
-import React,{useContext} from 'react'
-import './navbar.scss';
+import React, { useContext, useState } from 'react'
+import './navbar.scss'
 
-import { GridContext } from '../../context/gridContext';
-import { visualizeDijkstra } from '../../algorithms/dijkstra';
-import {FaAngleDown} from 'react-icons/fa';
+import { GridContext } from '../../context/gridContext'
+import { visualizeDijkstra, visualizeDFS } from '../../algorithms'
+import pattern1 from '../../patterns/pattern1'
+import { FaAngleDown } from 'react-icons/fa'
 
 const Navbar = () => {
-  const {grid, startNodeIdx, finishNodeIdx, setGrid,initializeGrid} = useContext(GridContext);
-  
-  function pattern1() {
-    console.log('pattern 1 initiated');
+  const {
+    grid,
+    startNodeIdx,
+    finishNodeIdx,
+    setGrid,
+    initializeGrid,
+  } = useContext(GridContext)
+  const [algo, setAlgo] = useState('Random')
 
-    for(let row = 0;row < 20;row++) {
-
-      for(let col=0;col<50;col++) {
-        const condition = (row !== startNodeIdx[0] && col !== startNodeIdx[1] ) || (row !== finishNodeIdx[0] && col !== finishNodeIdx[1])
-        if(row === col && condition) {
-          const newGrid = buildWall(row,col);
-          setGrid(newGrid);
-        }
+  function visualizeHandler() {
+    switch (algo) {
+      case 'dfs':
+        return visualizeDFS(grid, startNodeIdx, finishNodeIdx)
+      case 'dijkstra':
+        return visualizeDijkstra(grid, startNodeIdx, finishNodeIdx)
+      default:
+        visualizeDijkstra(grid, startNodeIdx, finishNodeIdx)
+    }
+  }
+  const patternHandler = (pattern) => {
+    if (true) {
+      switch (pattern) {
+        case 'pattern1':
+          return pattern1(grid, setGrid)
+        default:
+          return pattern1(grid, setGrid)
       }
     }
-    
   }
 
-  function buildWall(row, col) {
-    const newGrid = grid.slice()
-    const node = grid[row][col]
-    const newNode = {
-      ...node,
-      isWall: true,
-    }
-    newGrid[row][col] = newNode
-
-    return newGrid
-  }
-  
   const clearWalls = () => {
-    const newGrid = initializeGrid();
+    const newGrid = initializeGrid()
     setGrid(newGrid)
+    return true
   }
+
   return (
     <nav className="nav">
       <h1>Algo Visualizer</h1>
       <ul>
         <li>
-          <a href="#">Algorithm <FaAngleDown /></a>
+          <a href="#">
+            Algorithm <FaAngleDown />
+          </a>
           <ul className="dropdown">
             <li>
-              <a href="#">Dijkstra </a>
+              <a href="#" onClick={() => setAlgo('dijkstra')}>
+                Dijkstra{' '}
+              </a>
             </li>
             <li>
-              <a href="#">Algo 2</a>
+              <a href="#" onClick={() => setAlgo('dfs')}>
+                DFS
+              </a>
             </li>
             <li>
               <a href="#">Algo 3</a>
@@ -61,13 +70,18 @@ const Navbar = () => {
             </li>
           </ul>
         </li>
-        <li><button onClick={() => 
-        visualizeDijkstra(grid.slice(), startNodeIdx, finishNodeIdx)}>Visualize [Random]</button></li>
+        <li>
+          <button onClick={() => visualizeHandler()}>
+            {`Visualize ${algo.toUpperCase()}`}{' '}
+          </button>
+        </li>
         <li>
           <a href="#">Patterns </a>
           <ul className="dropdown">
             <li>
-              <a href="#" onClick={() => pattern1()}>Pattern 1</a>
+              <a href="#" onClick={() => patternHandler('pattern1')}>
+                Pattern 1
+              </a>
             </li>
             <li>
               <a href="#">Pattern 2</a>
@@ -80,7 +94,9 @@ const Navbar = () => {
             </li>
           </ul>
         </li>
-        <li><a onClick={clearWalls}>Clear Board</a></li>
+        <li>
+          <a onClick={clearWalls}>Clear Board</a>
+        </li>
       </ul>
     </nav>
   )
