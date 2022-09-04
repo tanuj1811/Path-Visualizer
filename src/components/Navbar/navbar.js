@@ -3,7 +3,7 @@ import './navbar.scss'
 
 import { GridContext } from '../../context/gridContext'
 import { visualizeDijkstra, visualizeDFS } from '../../algorithms'
-import pattern1 from '../../patterns/pattern1'
+import { visualizeRandomPattern,visualizeBasic,visualizeMazePattern,visualizeVerticalRecMazePattern, visualizeHorizontalMazePattern } from '../../patterns'
 import { FaAngleDown } from 'react-icons/fa'
 
 const Navbar = () => {
@@ -14,7 +14,7 @@ const Navbar = () => {
     setGrid,
     initializeGrid,
   } = useContext(GridContext)
-  const [algo, setAlgo] = useState('Random')
+  const [algo, setAlgo] = useState('Dijkstra')
 
   function visualizeHandler() {
     switch (algo) {
@@ -24,16 +24,6 @@ const Navbar = () => {
         return visualizeDijkstra(grid, startNodeIdx, finishNodeIdx)
       default:
         visualizeDijkstra(grid, startNodeIdx, finishNodeIdx)
-    }
-  }
-  const patternHandler = (pattern) => {
-    if (true) {
-      switch (pattern) {
-        case 'pattern1':
-          return pattern1(grid, setGrid)
-        default:
-          return pattern1(grid, setGrid)
-      }
     }
   }
 
@@ -79,18 +69,21 @@ const Navbar = () => {
           <a href="#">Patterns </a>
           <ul className="dropdown">
             <li>
-              <a href="#" onClick={() => patternHandler('pattern1')}>
-                Pattern 1
+              <a href="#" onClick={() => visualizeBasic(grid)}>
+                Basic Pattern
               </a>
             </li>
             <li>
-              <a href="#">Pattern 2</a>
+              <a href="#" onClick={() => visualizeRandomPattern(grid)}>Random Walls</a>
             </li>
             <li>
-              <a href="#">Pattern 3</a>
+              <a href="#" onClick={() => visualizeMazePattern(grid)}>Pattern 3</a>
             </li>
             <li>
-              <a href="#">Pattern 4</a>
+              <a href="#" onClick={() => visualizeVerticalRecMazePattern(grid)}>Pattern V--4</a>
+            </li>
+            <li>
+              <a href="#" onClick={() => visualizeHorizontalMazePattern(grid)}>Pattern H--4</a>
             </li>
           </ul>
         </li>
