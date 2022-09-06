@@ -8,6 +8,7 @@
   left: 0;
   display: none;
   background: white;
+  z-index: 9;
 
   //here's hover property is down there
 
@@ -17,9 +18,10 @@
     text-align: left;
     margin-bottom: 20px;
     border-style: none;
-    font-size: 25px;
-
+    font-size: 16px;
+    
     a {
+      margin: 1rem 0px;
       color: black;
       text-decoration: none;
       transition: all 0.5s ease;
@@ -36,17 +38,27 @@
 .nav {
   min-width: 100%;
   position: sticky;
+  top: 0;
   // overflow: hidden;
   text-align: center;
-  background-color: yellow;
+  background-image: linear-gradient(
+    rgb(255, 255, 255),
+    rgba(255, 255, 255, 0.8)
+  );
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.11);
 
-  ul{
+  ul {
     padding: 0;
   }
 
   ul li {
     list-style: none;
-    margin: 0 auto;
+    margin: 5px auto;
     display: inline-block;
     padding: 10px 30px;
     position: relative;
@@ -61,7 +73,6 @@
 
     @media screen and (min-width: 300px) {
       padding: 1px 10px;
-
     }
   }
 
@@ -76,4 +87,15 @@
     padding-top: 20px;
     box-shadow: 0px 3px 5px -1px #ccc;
   }
+}
+
+button {
+  width: 10rem;
+  border: none;
+  background-color: inherit;
+  font-size: 16px;
+}
+
+img {
+  max-height: 65px;
 }

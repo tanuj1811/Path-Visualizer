@@ -1,8 +1,27 @@
 .grid {
     margin: 100px 0 0;  
+    margin-bottom: 2rem;
   }
 
   .row {
     display: flex;
     justify-content: center;
+  }
+
+  .github {
+    background-color: #555;
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding-top: 10px;
+    box-sizing: border-box;
   }

@@ -3,40 +3,78 @@ import './navbar.scss'
 
 import { GridContext } from '../../context/gridContext'
 import { visualizeDijkstra, visualizeDFS } from '../../algorithms'
-import { visualizeRandomPattern,visualizeBasic,visualizeMazePattern,visualizeVerticalRecMazePattern, visualizeHorizontalMazePattern } from '../../patterns'
+import {
+  visualizeRandomPattern,
+  visualizeBasic,
+  visualizeMazePattern,
+  visualizeVerticalRecMazePattern,
+  visualizeHorizontalMazePattern,
+} from '../../patterns'
 import { FaAngleDown } from 'react-icons/fa'
+import logo from '../../logo.jpeg'
 
 const Navbar = () => {
-  const {
-    grid,
-    startNodeIdx,
-    finishNodeIdx,
-    setGrid,
-    initializeGrid,
-  } = useContext(GridContext)
+  const { grid, startNodeIdx, finishNodeIdx, resetBoard } = useContext(
+    GridContext,
+  )
   const [algo, setAlgo] = useState('Dijkstra')
 
   function visualizeHandler() {
     switch (algo) {
       case 'dfs':
-        return visualizeDFS(grid, startNodeIdx, finishNodeIdx)
+        visualizeDFS(grid, startNodeIdx, finishNodeIdx)
+        break
       case 'dijkstra':
-        return visualizeDijkstra(grid, startNodeIdx, finishNodeIdx)
+        visualizeDijkstra(grid, startNodeIdx, finishNodeIdx)
+        break;
       default:
         visualizeDijkstra(grid, startNodeIdx, finishNodeIdx)
+
+      }
+  }
+
+  function clearWalls() {
+    for (const row of grid) {
+      for (const node of row) {
+        node.isWall = false
+        node.isVisited = false
+        if (node.isSource || node.isTarget)
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node node-source'
+        else
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node'
+      }
     }
   }
 
-  const clearWalls = () => {
-    const newGrid = initializeGrid()
-    setGrid(newGrid)
-    return true
+  function clearPath() {
+    for (const row of grid) {
+      for (const node of row) {
+        node.isVisited = false
+        if (node.isSource || node.isTarget) {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node node-source'
+        }
+        else if(node.isWall) {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+          'node wall'
+        }
+        else {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node'
+        }
+      }
+    }
   }
 
   return (
     <nav className="nav">
-      <h1>Algo Visualizer</h1>
+      <img src={logo} alt="logo" />
       <ul>
+        <li>
+          <a onClick={() => resetBoard()}>Reset Board</a>
+        </li>
         <li>
           <a href="#">
             Algorithm <FaAngleDown />
@@ -52,43 +90,50 @@ const Navbar = () => {
                 DFS
               </a>
             </li>
-            <li>
-              <a href="#">Algo 3</a>
-            </li>
-            <li>
-              <a href="#">Algo 4</a>
-            </li>
           </ul>
         </li>
         <li>
           <button onClick={() => visualizeHandler()}>
-            {`Visualize ${algo.toUpperCase()}`}{' '}
+            {`Visualize ${algo.toUpperCase()}`}
           </button>
         </li>
         <li>
-          <a href="#">Patterns </a>
+          <a href="#">
+            Patterns <FaAngleDown />
+          </a>
           <ul className="dropdown">
             <li>
               <a href="#" onClick={() => visualizeBasic(grid)}>
-                Basic Pattern
+                Basic Stair Pattern
               </a>
             </li>
             <li>
-              <a href="#" onClick={() => visualizeRandomPattern(grid)}>Random Walls</a>
+              <a href="#" onClick={() => visualizeMazePattern(grid)}>
+                Maze Pattern
+              </a>
             </li>
             <li>
-              <a href="#" onClick={() => visualizeMazePattern(grid)}>Pattern 3</a>
+              <a href="#" onClick={() => visualizeVerticalRecMazePattern(grid)}>
+                Vertical Maze Pattern
+              </a>
             </li>
             <li>
-              <a href="#" onClick={() => visualizeVerticalRecMazePattern(grid)}>Pattern V--4</a>
+              <a href="#" onClick={() => visualizeHorizontalMazePattern(grid)}>
+                Horizontal Maze Pattern
+              </a>
             </li>
             <li>
-              <a href="#" onClick={() => visualizeHorizontalMazePattern(grid)}>Pattern H--4</a>
+              <a href="#" onClick={() => visualizeRandomPattern(grid)}>
+                Random Walls
+              </a>
             </li>
           </ul>
         </li>
         <li>
           <a onClick={clearWalls}>Clear Board</a>
+        </li>
+        <li>
+          <a onClick={clearPath}>Clear Path</a>
         </li>
       </ul>
     </nav>

@@ -19,6 +19,25 @@ ul {
   }
 }
 
-div {
-    text-align: center;
+.symbol-container {
+  width: 100%;
+  text-align: center;
+}
+
+.src-node {
+  width: 25px;
+  height: 25px;
+  background-color: #74ff6a;
+}
+
+.vis-node {
+  width: 25px;
+  height: 25px;
+  background-color: #0095dabf;
+}
+
+.wall-symbol {
+  background-color: rgb(12, 53, 71);
+  width: 25px;
+  height: 25px;
 }

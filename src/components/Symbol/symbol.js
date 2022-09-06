@@ -6,7 +6,7 @@ import { GiTargeted } from 'react-icons/gi'
 
 const Symbol = () => {
   return (
-    <div >
+    <div className='symbol-container'>
       <ul>
         <li>
           <div className="symbol">
@@ -22,25 +22,25 @@ const Symbol = () => {
         </li>
         <li>
           <div className="symbol">
-            <div className="icon shortestPath"></div>
+            <div className="icon src-node"></div>
             <span> Shortest Path Node </span>
           </div>
         </li>
         <li>
           <div className="symbol">
-            <div className="icon visited"></div>
-            <span> Visited Node </span>
+            <div className="icon vis-node"></div>
+            <span> Visited Nodes </span>
           </div>
         </li>
         <li>
           <div className="symbol">
             <div className="icon unvisited"></div>
-            <span> unvisited Node </span>
+            <span> Unvisited Nodes </span>
           </div>
         </li>
         <li>
           <div className="symbol">
-            <div className="icon wall"></div>
+            <div className="icon wall-symbol"></div>
             <span> Walls </span>
           </div>
         </li>

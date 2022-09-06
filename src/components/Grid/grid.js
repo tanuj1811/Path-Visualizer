@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react'
 import './grid.scss'
 import Node from '../Node/node'
 import { GridContext } from '../../context/gridContext'
+import Symbol from '../Symbol/symbol'
+import {FaGithub} from 'react-icons/fa'
 
 const FINISH_NODE_ROW = parseInt(process.env.REACT_APP_FINISH_NODE_ROW)
 const FINISH_NODE_COL = parseInt(process.env.REACT_APP_FINISH_NODE_COL)
@@ -125,7 +127,9 @@ const Grid = () => {
   }
   return (
     <div>
+      
       <div className="grid">
+      <Symbol/>
         {grid.map((row, rowIdx) => {
           return (
             <div key={rowIdx} className='row'>
@@ -149,6 +153,7 @@ const Grid = () => {
           )
         })}
       </div>
+      <a className="github" href='https://github.com/tanuj1811/Path-Visualizer' target="_blank" rel="noreferrer"><FaGithub /></a>
     </div>
   )
 }
