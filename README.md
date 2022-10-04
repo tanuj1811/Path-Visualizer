@@ -10,6 +10,28 @@ Thank you soo much.
 Enjoy the site.
 😎😎
 
+#### Steps For Contribution
+
+    1. Fork this repo
+    2. Star this repo
+    3. Build Successfully on Local Machine
+    4. Commit the code
+    5. Make pull request
+    
+---
+
+### Connect with me
+
+#### To follow me on Github [click here](https://github.com/tanuj1811/)
+
+<p>
+<a href="https://linkedin.com/in/tanujsharma01">
+  <img align="left" alt="Tanuj's LinkdeIn" width="3%" style="margin:10px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />
+</a>  
+</p>
+
+<br>
+
 
 ### Steps to run on local server
 
